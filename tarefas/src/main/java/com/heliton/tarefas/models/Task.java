@@ -31,6 +31,15 @@ public class Task {
     @Column(nullable = false)
     private TaskStatus status;
 
+    @Column(nullable = true)
+    private WeatherData weatherData;
+
+    @Column(nullable = false)
+    private String latitude;
+
+    @Column(nullable = false)
+    private String longitude;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -74,6 +83,30 @@ public class Task {
 	public void setStatus(TaskStatus status) {
 		this.status = status;
 	}
+
+    public WeatherData getWeatherData() {
+        return weatherData;
+    }
+
+    public void setWeatherData(WeatherData weatherData) {
+        this.weatherData = weatherData;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
 
 	public User getUser() {
 		return user;

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.heliton.tarefas.models.Task;
 import com.heliton.tarefas.models.TaskStatus;
+import com.heliton.tarefas.models.WeatherData;
 import com.heliton.tarefas.repository.TaskRepository;
 import com.heliton.tarefas.util.ResourceNotFoundException;
 
@@ -13,7 +14,13 @@ import java.util.List;
 @Service
 public class TaskService {
 
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
+    private final WeatherService weatherService;
+
+    public TaskService(TaskRepository taskRepository, WeatherService weatherService) {
+        this.taskRepository = taskRepository;
+        this.weatherService = weatherService;
+    }
 
     public Task createTask(Task task) {
         task.setStatus(TaskStatus.PENDING);
@@ -40,6 +47,14 @@ public class TaskService {
     }
 
     public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+        List<Task> tasks = taskRepository.findAll();
+        
+        for (Task task : tasks) {
+            WeatherData weatherData = weatherService.getWeatherData(task.getLatitude(), task.getLongitude());
+            task.setWeatherData(weatherData);
+        }
+        
+        return tasks;
     }
+
 }
