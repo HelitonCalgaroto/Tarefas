@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import com.heliton.tarefas.models.Task;
 import com.heliton.tarefas.models.TaskStatus;
-import com.heliton.tarefas.models.User;
 import com.heliton.tarefas.repository.TaskRepository;
 import com.heliton.tarefas.util.ResourceNotFoundException;
 
