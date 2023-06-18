@@ -1,24 +1,33 @@
 package com.heliton.tarefas.service;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import com.heliton.tarefas.models.WeatherData;
 
 @Service
 public class WeatherService {
 
-    @Value("${openweather.api.key}")
-    private String apiKey;
+    private String convertToCelsius(double temperatureInKelvin) {
+        double temperatureCelsius = temperatureInKelvin - 273.15;
+        return String.format("%.2f", temperatureCelsius);
+    }
 
-    public WeatherData getWeatherData(String latitude, String longitude) {
-        String apiUrl = "https://api.openweathermap.org/data/3.0/onecall?lat=" + latitude +
-                "&lon=" + longitude + "&exclude={part}&appid=" + apiKey;
+    public WeatherInfo getWeatherInfo(String latitude, String longitude) {
+        String apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude +
+                "&lon=" + longitude + "&appid=69ff7d9c5ffe5b9cee371759b2aa863e";
 
         RestTemplate restTemplate = new RestTemplate();
-        WeatherData weatherData = restTemplate.getForObject(apiUrl, WeatherData.class);
+        WeatherResponse weatherResponse = restTemplate.getForObject(apiUrl, WeatherResponse.class);
 
-        return weatherData;
+        if (weatherResponse != null && weatherResponse.getMain() != null) {
+            double temperatureKelvin = weatherResponse.getMain().getTemp();
+            String temperatureCelsius = convertToCelsius(temperatureKelvin);
+            String description = weatherResponse.getWeather().get(0).getDescription();
+
+            WeatherInfo weatherInfo = new WeatherInfo(temperatureCelsius, description);
+
+            return weatherInfo;
+        }
+
+        return null;
     }
 }

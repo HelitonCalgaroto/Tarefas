@@ -1,10 +1,11 @@
 package com.heliton.tarefas.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heliton.tarefas.models.Task;
 import com.heliton.tarefas.models.TaskStatus;
-import com.heliton.tarefas.models.WeatherData;
+import com.heliton.tarefas.models.User;
 import com.heliton.tarefas.repository.TaskRepository;
 import com.heliton.tarefas.util.ResourceNotFoundException;
 
@@ -17,14 +18,23 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final WeatherService weatherService;
 
+    @Autowired
     public TaskService(TaskRepository taskRepository, WeatherService weatherService) {
         this.taskRepository = taskRepository;
         this.weatherService = weatherService;
     }
 
-    public Task createTask(Task task) {
+    public Task createTask(Task task, String latitude, String longitude) {
         task.setStatus(TaskStatus.PENDING);
         task.setCreationDate(LocalDate.now());
+
+        WeatherInfo weatherInfo = weatherService.getWeatherInfo(latitude, longitude);
+        String temperature = weatherInfo.getTemperature();
+        String description = weatherInfo.getDescription();
+
+        task.setTemperature(temperature);
+        task.setWeatherDescription(description);
+
         return taskRepository.save(task);
     }
 
@@ -47,14 +57,7 @@ public class TaskService {
     }
 
     public List<Task> getAllTasks() {
-        List<Task> tasks = taskRepository.findAll();
-        
-        for (Task task : tasks) {
-            WeatherData weatherData = weatherService.getWeatherData(task.getLatitude(), task.getLongitude());
-            task.setWeatherData(weatherData);
-        }
-        
-        return tasks;
+        return taskRepository.findAll();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.heliton.tarefas.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heliton.tarefas.models.User;
@@ -11,6 +12,7 @@ import java.util.List;
 @Service
 public class UserService {
 
+	@Autowired
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {

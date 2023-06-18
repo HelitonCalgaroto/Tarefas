@@ -8,41 +8,59 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "tasks")
 public class Task {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(nullable = false)
-    private String title;
+	@Column(nullable = false)
+	private String title;
 
-    @Column(nullable = false)
-    private String description;
+	@Column(nullable = false)
+	private String description;
 
-    @Column(nullable = false)
-    private LocalDate creationDate;
+	@Column(nullable = false)
+	private LocalDate creationDate;
 
-    @Column(nullable = false)
-    private TaskStatus status;
+	@Column(nullable = false)
+	private TaskStatus status;
 
-    @Column(nullable = true)
-    private WeatherData weatherData;
+	@Column(nullable = true)
+	private String temperature;
 
-    @Column(nullable = false)
-    private String latitude;
+	@Column(nullable = false)
+	private String latitude;
 
-    @Column(nullable = false)
-    private String longitude;
+	@Column(nullable = false)
+	private String longitude;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+	@Column(nullable = true)
+	private String weatherDescription;
+
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
+
+	public Task(String title, String description, LocalDate creationDate, TaskStatus status,
+				String temperature, String weatherDescription, String latitude, String longitude, User user) {
+		this.title = title;
+		this.description = description;
+		this.creationDate = creationDate;
+		this.status = status;
+		this.temperature = temperature;
+		this.weatherDescription = weatherDescription;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.user = user;
+	}
+
+	public Task() {
+	}
 
 	public Long getId() {
 		return id;
@@ -84,29 +102,37 @@ public class Task {
 		this.status = status;
 	}
 
-    public WeatherData getWeatherData() {
-        return weatherData;
-    }
+	public String getTemperature() {
+		return temperature;
+	}
 
-    public void setWeatherData(WeatherData weatherData) {
-        this.weatherData = weatherData;
-    }
+	public void setTemperature(String temperature) {
+		this.temperature = temperature;
+	}
 
-    public String getLatitude() {
-        return latitude;
-    }
+	public String getWeatherDescription() {
+		return weatherDescription;
+	}
 
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
+	public void setWeatherDescription(String weatherDescription) {
+		this.weatherDescription = weatherDescription;
+	}
 
-    public String getLongitude() {
-        return longitude;
-    }
+	public String getLatitude() {
+		return latitude;
+	}
 
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
 
 	public User getUser() {
 		return user;
@@ -115,5 +141,4 @@ public class Task {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
 }

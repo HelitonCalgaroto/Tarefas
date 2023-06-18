@@ -14,12 +14,18 @@ import com.heliton.tarefas.service.TaskService;
 @RequestMapping("/tasks")
 public class TaskController {
 
-	@Autowired
-    private TaskService taskService;
+    private final TaskService taskService;
+
+    @Autowired
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task) {
-        Task createdTask = taskService.createTask(task);
+    public ResponseEntity<Task> createTask(@RequestBody Task task,
+                                           @RequestParam("latitude") String latitude,
+                                           @RequestParam("longitude") String longitude) {
+        Task createdTask = taskService.createTask(task, latitude, longitude);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
     }
 

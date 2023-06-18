@@ -24,6 +24,21 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+	public User(Long id) {
+		super();
+		this.id = id;
+	}
+
+	public User() {
+	}
+
+	public User(String name, String email, String password) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.password = password;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -55,6 +70,4 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-    
 }
