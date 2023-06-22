@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import com.heliton.tarefas.models.Task;
 import com.heliton.tarefas.service.TaskService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
@@ -22,7 +24,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task,
+    public ResponseEntity<Task> createTask(@Valid @RequestBody Task task,
                                            @RequestParam("latitude") String latitude,
                                            @RequestParam("longitude") String longitude) {
         Task createdTask = taskService.createTask(task, latitude, longitude);
@@ -30,7 +32,7 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}")
-    public ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody Task task) {
+    public ResponseEntity<Task> updateTask(@Valid @PathVariable Long taskId, @RequestBody Task task) {
         Task updatedTask = taskService.updateTask(taskId, task);
         return ResponseEntity.ok(updatedTask);
     }

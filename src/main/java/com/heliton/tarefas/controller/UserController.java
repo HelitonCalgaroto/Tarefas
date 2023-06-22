@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.heliton.tarefas.models.User;
 import com.heliton.tarefas.service.UserService;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -34,13 +36,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         User createdUser = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@Valid @PathVariable Long id, @RequestBody User user) {
         User updatedUser = userService.updateUser(id, user);
         return ResponseEntity.ok(updatedUser);
     }

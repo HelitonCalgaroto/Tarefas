@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 @Entity
@@ -18,15 +20,19 @@ public class Task {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull
 	@Column(nullable = false)
 	private String title;
 
+	@NotNull
 	@Column(nullable = false)
 	private String description;
 
+	@NotNull
 	@Column(nullable = false)
 	private LocalDate creationDate;
 
+	@NotNull
 	@Column(nullable = false)
 	private TaskStatus status;
 
